@@ -1,0 +1,33 @@
+<mat-card class="match-card">
+  <div class="team-container">
+    <div>
+      {{odd.odds.home}}
+    </div>
+    <img [src]="homeTeam?.logo_url"/>
+    <button mat-raised-button
+            (click)="select(bet.HOME)"
+            [color]="odd.selected === bet.HOME ? 'primary' : ''">{{homeTeam?.name}}
+    </button>
+  </div>
+  <div class="team-container">
+    <div>
+      {{odd.odds.draw}}
+    </div>
+    <mat-icon>crop</mat-icon>
+    <button mat-raised-button
+            (click)="select(bet.DRAW)"
+            [color]="odd.selected === bet.DRAW ? 'primary' : ''">Draw
+    </button>
+  </div>
+
+  <div class="team-container">
+    <div>
+      {{odd.odds.away}}
+    </div>
+    <img [src]="awayTeam?.logo_url"/>
+    <button mat-raised-button
+            (click)="select(bet.AWAY)"
+            [color]="odd.selected === bet.AWAY ? 'primary' : ''">{{awayTeam?.name}}
+    </button>
+  </div>
+</mat-card>

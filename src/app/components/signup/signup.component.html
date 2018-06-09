@@ -1,0 +1,27 @@
+<mat-card class="login-card">
+  <mat-form-field>
+    <input matInput placeholder="username" [(ngModel)]="username">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="nickname" [(ngModel)]="nickname">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="email" [(ngModel)]="email">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="password" placeholder="password" [(ngModel)]="password">
+  </mat-form-field>
+
+  <div class="buttons">
+    <a mat-button color="primary" href="/login">login</a>
+    <button mat-raised-button
+            color="primary"
+            (click)="signup()"
+            [disabled]="!email || !nickname || !username || !password">
+      sign up
+    </button>
+  </div>
+</mat-card>
