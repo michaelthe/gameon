@@ -1,0 +1,26 @@
+:host {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+
+  mat-toolbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+
+    a {
+      line-height: 1;
+      margin-left: 5px;
+    }
+
+    a:last-child {
+      font-size: 14px;
+      margin-left: auto;
+    }
+  }
+
+  router-outlet {
+    flex: 1 1 auto;
+  }
+}

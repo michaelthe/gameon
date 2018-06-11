@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../api.service';
+import { ApiService, BET, Odd } from '../../api.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'go-home',
@@ -8,17 +9,15 @@ import { ApiService } from '../../api.service';
 })
 export class HomeComponent implements OnInit {
 
-  public odds = [];
-
-  constructor (private apiService: ApiService) { }
+  constructor (private apiService: ApiService) {}
 
   public ngOnInit () {
-    if (!this.apiService.isLoggedIn) {
-      return window.location.href = '/login';
-    }
-
     this.apiService
-      .odds()
-      .subscribe(async (odds: any[]) => this.odds = odds);
+      .isLoggedIn$
+      .subscribe(loggedIn => {
+        if (!loggedIn) {
+          return window.location.href = '/login';
+        }
+      });
   }
 }

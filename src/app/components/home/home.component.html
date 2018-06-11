@@ -1,1 +1,16 @@
-<go-match *ngFor="let odd of odds" [odd]="odd"></go-match>
+<mat-toolbar>
+  <span>Game on</span>
+  <a routerLink="/home/betting">
+    <mat-icon>home</mat-icon>
+  </a>
+
+  <a routerLink="/home/slips">
+    <mat-icon>list</mat-icon>
+  </a>
+
+  <a routerLink="/logout">logout</a>
+
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>

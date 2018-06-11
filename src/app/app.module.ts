@@ -17,7 +17,6 @@ import { ComponentsModule } from './components/components.module';
     SharedModule.forRoot(),
     BrowserModule,
     ComponentsModule,
-    AppRoutingModule,
     BrowserAnimationsModule
   ],
   bootstrap: [

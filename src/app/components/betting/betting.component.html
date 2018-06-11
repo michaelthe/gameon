@@ -1,0 +1,24 @@
+
+
+<div class="bet">
+  <mat-card *ngIf="betting.length">
+    <div class="info">
+      <div>Selected {{betting.length}} games</div>
+      <div>Potential win {{potential}}</div>
+    </div>
+
+    <div class="options">
+      <mat-form-field>
+        <input matInput placeholder="Amount" type="number" [(ngModel)]="amount" (ngModelChange)="amountChange()">
+      </mat-form-field>
+      <div class="buttons">
+        <button mat-button color="secondary" [disabled]="!potential" (click)="discard()">Clear</button>
+        <button mat-raised-button color="primary" [disabled]="!potential" (click)="bet()">Bet</button>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<div class="matches">
+  <go-match *ngFor="let odd of odds" [odd]="odd"></go-match>
+</div>

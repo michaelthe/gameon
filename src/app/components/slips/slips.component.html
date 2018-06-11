@@ -1,0 +1,14 @@
+<div class="info">
+  <mat-card>Balance €{{ user?.balance }}</mat-card>
+</div>
+
+<div class="slips">
+  <mat-card *ngFor="let slip of user?.slip">
+    <div class="amount">
+      <span>Amount €{{ slip.amount }}</span>
+      <span>status: {{ slip.status }}</span>
+    </div>
+
+    <go-bet *ngFor="let bet of slip.bets" [bet]="bet"></go-bet>
+  </mat-card>
+</div>

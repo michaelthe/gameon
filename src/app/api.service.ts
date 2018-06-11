@@ -8,60 +8,76 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 })
 export class ApiService {
 
-  private _token = '';
-  private _isLoggedIn = false;
-  private _apiEndpoint = 'https://gameon-world.herokuapp.com';
+  public isLoggedIn$ = new ReplaySubject(1);
 
-  private _odds: Odd[] = [];
+  private _token = '';
+  private _apiEndpoint = 'http://gameonc.xyz';
+
+  private _oddsArray: Odd[] = [];
+
+  private _odds = {};
   private _teams = {};
   private _matches = {};
+  private _selected = {};
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1);
 
   constructor (private httpClient: HttpClient) {
-    this._token = window.localStorage.getItem('token') || '';
-    this._isLoggedIn = !!this._token;
-
+    this._odds = JSON.parse(window.localStorage.getItem('odds')) || {};
     this._teams = JSON.parse(window.localStorage.getItem('teams')) || {};
     this._matches = JSON.parse(window.localStorage.getItem('matches')) || {};
+    this._selected = JSON.parse(window.localStorage.getItem('selected')) || {};
 
-    this.httpClient
-      .get(this._apiEndpoint + '/odds', {headers: {Authorization: 'Bearer-' + this._token}})
-      .subscribe((odds: Odd[]) => {
-        this._odds = odds;
-        this._odds$.next(this._odds);
+    this._token = window.localStorage.getItem('token') || '';
+
+    this.user()
+      .subscribe(res => {
+        this.isLoggedIn$.next(true);
+
+        this.httpClient
+          .get(this._apiEndpoint + '/odds', this._options())
+          .subscribe((odds: Odd[]) => {
+            this._oddsArray = odds;
+            this._nextOdds();
+          });
+      }, error => {
+        window.localStorage.setItem('token', this._token = '');
+        this.isLoggedIn$.next(false);
       });
-
-    this.user().subscribe();
-  }
-
-  public get isLoggedIn () {
-    return this._isLoggedIn;
   }
 
   public login (username, password) {
     return this.httpClient
       .post(this._apiEndpoint + '/login', {username, password})
       .pipe(tap(response => {
-        this._isLoggedIn = true;
-        this._token = response['access_token'];
-        window.localStorage.setItem('token', this._token);
+        window.localStorage.setItem('token', this._token = response['access_token']);
+        this.isLoggedIn$.next(true);
       }));
   }
 
   public signup (email, nickname, username, password) {
     return this.httpClient
-      .post(this._apiEndpoint + '/user', {email, nickname, username, password})
+      .post(this._apiEndpoint + '/slips', {email, nickname, username, password})
       .pipe(tap(response => {
-        this._isLoggedIn = true;
-        this._token = response['access_token'];
-        window.localStorage.setItem('token', this._token);
+        window.localStorage.setItem('token', this._token = response['access_token']);
+        this.isLoggedIn$.next(true);
+      }));
+  }
+
+  public logout () {
+    return this.httpClient
+      .get(this._apiEndpoint + '/logout', this._options())
+      .pipe(tap(() => {
+        window.localStorage.setItem('token', this._token = '');
+        this.isLoggedIn$.next(false);
+
+        window.location.href = '/login';
       }));
   }
 
   public user () {
     return this.httpClient
-      .get(this._apiEndpoint + '/user', {headers: {Authorization: 'Bearer ' + this._token}})
+      .get(this._apiEndpoint + '/user', this._options())
       .pipe(tap((user: any) => {
         console.log({user});
       }));
@@ -71,13 +87,27 @@ export class ApiService {
     return this._odds$;
   }
 
+  public odd (id) {
+    if (this._odds[id]) {
+      return of(this._odds[id]);
+    }
+
+    return this.httpClient
+      .get(this._apiEndpoint + '/odd?id=' + id, this._options())
+      .pipe(tap((odd: Odd) => {
+        this._odds[odd.id] = odd;
+        window.localStorage.setItem('odds', JSON.stringify(this._odds));
+        console.log({odd});
+      }));
+  }
+
   public match (id) {
     if (this._matches[id]) {
       return of(this._matches[id]);
     }
 
     return this.httpClient
-      .get(this._apiEndpoint + '/match?id=' + id, {headers: {Authorization: 'Bearer-' + this._token}})
+      .get(this._apiEndpoint + '/match?id=' + id, this._options())
       .pipe(tap((match: Match) => {
         this._matches[match.id] = match;
         window.localStorage.setItem('matches', JSON.stringify(this._matches));
@@ -91,7 +121,7 @@ export class ApiService {
     }
 
     return this.httpClient
-      .get(this._apiEndpoint + '/team?id=' + id, {headers: {Authorization: 'Bearer-' + this._token}})
+      .get(this._apiEndpoint + '/team?id=' + id, this._options())
       .pipe(tap((team: Team) => {
         this._teams[team.id] = team;
         window.localStorage.setItem('teams', JSON.stringify(this._teams));
@@ -99,16 +129,42 @@ export class ApiService {
       }));
   }
 
-  public select (oddId: number, bet: BET) {
-    this._odds.forEach(odd => {
-      if (odd.id !== oddId) {
-        return;
-      }
+  public toggle (oddId: number, bet: BET) {
+    this._selected[oddId] = bet;
+    window.localStorage.setItem('selected', JSON.stringify(this._selected));
+    this._nextOdds();
+  }
 
-      odd.selected = odd.selected === bet ? BET.NONE : bet;
+  public discard () {
+    this._selected = {};
+    window.localStorage.setItem('selected', JSON.stringify(this._selected));
+    this._nextOdds();
+  }
+
+  public bet (amount) {
+    const bets = this._oddsArray
+      .filter(odd => odd.selected && odd.selected !== BET.NONE)
+      .map(odd => ({oddId: odd.id, selected: odd.selected}));
+
+    return this.httpClient
+      .post(this._apiEndpoint + '/slip', {bets, amount}, this._options())
+      .pipe(tap(() => {
+        this._selected = {};
+        window.localStorage.setItem('selected', JSON.stringify(this._selected));
+        this._nextOdds();
+      }));
+  }
+
+  private _nextOdds () {
+    this._oddsArray.forEach(odd => {
+      odd.selected = this._selected[odd.id] || BET.NONE;
     });
 
-    this._odds$.next(this._odds);
+    this._odds$.next(this._oddsArray);
+  }
+
+  private _options () {
+    return {headers: {Authorization: 'Bearer ' + this._token}};
   }
 }
 

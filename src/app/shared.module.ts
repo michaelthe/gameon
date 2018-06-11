@@ -6,13 +6,15 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { ApiService } from './api.service';
 import { MaterialModule } from './material.module';
+import { AppRoutingModule } from './app-routing.module';
 
 const modules = [
   FormsModule,
   CommonModule,
   MaterialModule,
   HttpClientModule,
-  VirtualScrollModule
+  AppRoutingModule,
+  VirtualScrollModule,
 ];
 
 @NgModule({

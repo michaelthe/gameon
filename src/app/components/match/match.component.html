@@ -5,7 +5,7 @@
     </div>
     <img [src]="homeTeam?.logo_url"/>
     <button mat-raised-button
-            (click)="select(bet.HOME)"
+            (click)="toggle(bet.HOME)"
             [color]="odd.selected === bet.HOME ? 'primary' : ''">{{homeTeam?.name}}
     </button>
   </div>
@@ -15,7 +15,7 @@
     </div>
     <mat-icon>crop</mat-icon>
     <button mat-raised-button
-            (click)="select(bet.DRAW)"
+            (click)="toggle(bet.DRAW)"
             [color]="odd.selected === bet.DRAW ? 'primary' : ''">Draw
     </button>
   </div>
@@ -26,7 +26,7 @@
     </div>
     <img [src]="awayTeam?.logo_url"/>
     <button mat-raised-button
-            (click)="select(bet.AWAY)"
+            (click)="toggle(bet.AWAY)"
             [color]="odd.selected === bet.AWAY ? 'primary' : ''">{{awayTeam?.name}}
     </button>
   </div>

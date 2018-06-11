@@ -4,9 +4,11 @@ import {
   MatIconModule,
   MatInputModule,
   MatButtonModule,
+  MatToolbarModule,
   MatCheckboxModule,
   MatSnackBarModule,
-  MatFormFieldModule, MatButtonToggleModule
+  MatFormFieldModule,
+  MatButtonToggleModule,
 } from '@angular/material';
 
 const modules = [
@@ -14,6 +16,7 @@ const modules = [
   MatIconModule,
   MatInputModule,
   MatButtonModule,
+  MatToolbarModule,
   MatCheckboxModule,
   MatSnackBarModule,
   MatFormFieldModule,
