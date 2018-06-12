@@ -23,10 +23,13 @@
   }
 
   .slips {
+    flex: 1 1 auto;
+    align-items: stretch;
     flex-direction: column;
 
     mat-card {
-      width: 100%;
+      margin: 10px;
+      max-width: 500px;
       align-items: flex-start;
       flex-direction: column;
 

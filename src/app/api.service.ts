@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { tap } from 'rxjs/operators';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
+
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +14,8 @@ export class ApiService {
   public isLoggedIn$ = new ReplaySubject(1);
 
   private _token = '';
-  private _apiEndpoint = 'http://gameonc.xyz';
 
-  private _oddsArray: Odd[] = [];
+  private _activeOdds: Odd[] = [];
 
   private _odds = {};
   private _teams = {};
@@ -35,9 +37,9 @@ export class ApiService {
         this.isLoggedIn$.next(true);
 
         this.httpClient
-          .get(this._apiEndpoint + '/odds', this._options())
+          .get(environment.apiEndpoint + '/odds', this._options())
           .subscribe((odds: Odd[]) => {
-            this._oddsArray = odds;
+            this._activeOdds = odds;
             this._nextOdds();
           });
       }, error => {
@@ -48,7 +50,7 @@ export class ApiService {
 
   public login (username, password) {
     return this.httpClient
-      .post(this._apiEndpoint + '/login', {username, password})
+      .post(environment.apiEndpoint + '/login', {username, password})
       .pipe(tap(response => {
         window.localStorage.setItem('token', this._token = response['access_token']);
         this.isLoggedIn$.next(true);
@@ -57,7 +59,7 @@ export class ApiService {
 
   public signup (email, nickname, username, password) {
     return this.httpClient
-      .post(this._apiEndpoint + '/slips', {email, nickname, username, password})
+      .post(environment.apiEndpoint + '/signup', {email, nickname, username, password})
       .pipe(tap(response => {
         window.localStorage.setItem('token', this._token = response['access_token']);
         this.isLoggedIn$.next(true);
@@ -66,7 +68,7 @@ export class ApiService {
 
   public logout () {
     return this.httpClient
-      .get(this._apiEndpoint + '/logout', this._options())
+      .get(environment.apiEndpoint + '/logout', this._options())
       .pipe(tap(() => {
         window.localStorage.setItem('token', this._token = '');
         this.isLoggedIn$.next(false);
@@ -77,7 +79,7 @@ export class ApiService {
 
   public user () {
     return this.httpClient
-      .get(this._apiEndpoint + '/user', this._options())
+      .get(environment.apiEndpoint + '/user', this._options())
       .pipe(tap((user: any) => {
         console.log({user});
       }));
@@ -93,7 +95,7 @@ export class ApiService {
     }
 
     return this.httpClient
-      .get(this._apiEndpoint + '/odd?id=' + id, this._options())
+      .get(environment.apiEndpoint + '/odd?id=' + id, this._options())
       .pipe(tap((odd: Odd) => {
         this._odds[odd.id] = odd;
         window.localStorage.setItem('odds', JSON.stringify(this._odds));
@@ -107,7 +109,7 @@ export class ApiService {
     }
 
     return this.httpClient
-      .get(this._apiEndpoint + '/match?id=' + id, this._options())
+      .get(environment.apiEndpoint + '/match?id=' + id, this._options())
       .pipe(tap((match: Match) => {
         this._matches[match.id] = match;
         window.localStorage.setItem('matches', JSON.stringify(this._matches));
@@ -121,7 +123,7 @@ export class ApiService {
     }
 
     return this.httpClient
-      .get(this._apiEndpoint + '/team?id=' + id, this._options())
+      .get(environment.apiEndpoint + '/team?id=' + id, this._options())
       .pipe(tap((team: Team) => {
         this._teams[team.id] = team;
         window.localStorage.setItem('teams', JSON.stringify(this._teams));
@@ -142,25 +144,21 @@ export class ApiService {
   }
 
   public bet (amount) {
-    const bets = this._oddsArray
+    const bets = this._activeOdds
       .filter(odd => odd.selected && odd.selected !== BET.NONE)
       .map(odd => ({oddId: odd.id, selected: odd.selected}));
 
     return this.httpClient
-      .post(this._apiEndpoint + '/slip', {bets, amount}, this._options())
-      .pipe(tap(() => {
-        this._selected = {};
-        window.localStorage.setItem('selected', JSON.stringify(this._selected));
-        this._nextOdds();
-      }));
+      .post(environment.apiEndpoint + '/slip', {bets, amount}, this._options())
+      .pipe(tap(this.discard));
   }
 
   private _nextOdds () {
-    this._oddsArray.forEach(odd => {
+    this._activeOdds.forEach(odd => {
       odd.selected = this._selected[odd.id] || BET.NONE;
     });
 
-    this._odds$.next(this._oddsArray);
+    this._odds$.next(this._activeOdds);
   }
 
   private _options () {
