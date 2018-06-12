@@ -2,9 +2,10 @@
   height: 100vh;
   display: flex;
   overflow: hidden;
+  align-items: center;
   flex-direction: column;
 
-  .info, .slips {
+  .info {
     flex: 0 0 auto;
     width: 100%;
     display: flex;
@@ -24,11 +25,18 @@
 
   .slips {
     flex: 1 1 auto;
-    align-items: stretch;
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-items: center;
     flex-direction: column;
 
     mat-card {
+      flex: 0 0 auto;
+      width: calc(100% - 52px);
       margin: 10px;
+      display: flex;
       max-width: 500px;
       align-items: flex-start;
       flex-direction: column;

@@ -9,5 +9,10 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    &:last-child {
+      flex: 0 0 auto;
+      margin-left: 5px;
+    }
   }
 }

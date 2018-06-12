@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { of, ReplaySubject } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -59,7 +59,7 @@ export class ApiService {
 
   public signup (email, nickname, username, password) {
     return this.httpClient
-      .post(environment.apiEndpoint + '/signup', {email, nickname, username, password})
+      .post(environment.apiEndpoint + '/user', {email, nickname, username, password})
       .pipe(tap(response => {
         window.localStorage.setItem('token', this._token = response['access_token']);
         this.isLoggedIn$.next(true);
@@ -79,10 +79,11 @@ export class ApiService {
 
   public user () {
     return this.httpClient
-      .get(environment.apiEndpoint + '/user', this._options())
-      .pipe(tap((user: any) => {
-        console.log({user});
-      }));
+      .get(environment.apiEndpoint + '/user', this._options());
+    // .pipe(map((user: any) => {
+    // user.slip = user.slip.reverse();
+    // return user;
+    // }));
   }
 
   public odds () {
@@ -132,7 +133,7 @@ export class ApiService {
   }
 
   public toggle (oddId: number, bet: BET) {
-    this._selected[oddId] = bet;
+    this._selected[oddId] = this._selected[oddId] === bet ? BET.NONE : bet;
     window.localStorage.setItem('selected', JSON.stringify(this._selected));
     this._nextOdds();
   }
@@ -150,7 +151,7 @@ export class ApiService {
 
     return this.httpClient
       .post(environment.apiEndpoint + '/slip', {bets, amount}, this._options())
-      .pipe(tap(this.discard));
+      .pipe(tap(() => this.discard()));
   }
 
   private _nextOdds () {
