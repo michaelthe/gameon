@@ -9,12 +9,14 @@ import { BettingComponent } from './betting/betting.component';
 import { SlipsComponent } from './slips/slips.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BetComponent } from './bet/bet.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 const components = [
   HomeComponent,
   LoginComponent,
   SignupComponent,
   LogoutComponent,
+  LeaderboardComponent,
 ];
 
 @NgModule({

@@ -1,0 +1,41 @@
+:host {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  flex-direction: column;
+
+  .users {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-items: center;
+    flex-direction: column;
+
+    mat-card {
+      flex: 0 0 auto;
+      width: calc(100% - 52px);
+      margin: 10px;
+      display: flex;
+      max-width: 500px;
+      align-items: center;
+
+      .name {
+        flex: 1 1 auto;
+      }
+
+      .money {
+        flex: 0 0 60px;
+      }
+
+      .chart {
+        flex: 0 0 auto;
+        width: 120px;
+        position: relative;
+        text-align: center;
+      }
+    }
+  }
+}

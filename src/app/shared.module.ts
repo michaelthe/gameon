@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 import { ModuleWithProviders, NgModule } from '@angular/core';
@@ -11,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 const modules = [
   FormsModule,
   CommonModule,
+  ChartsModule,
   MaterialModule,
   HttpClientModule,
   AppRoutingModule,

@@ -88,6 +88,10 @@ export class ApiService {
     // }));
   }
 
+  public leaderboard () {
+    return this.httpClient.get(environment.apiEndpoint + '/leaderboard', this._options());
+  }
+
   public odds () {
     return this._odds$;
   }

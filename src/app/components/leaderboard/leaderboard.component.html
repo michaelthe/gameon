@@ -1,0 +1,19 @@
+<div class="users">
+  <mat-card *ngFor="let user of users">
+    <span class="name">{{user.nickname}}</span>
+    <span class="money">€{{user.money}}</span>
+
+    <!--[data]="[5,6,9]"-->
+
+    <div class="chart" *ngIf="!(user.slips.won || user.slips.lost || user.slips.pending)">No bets yet</div>
+
+    <div class="chart" *ngIf="user.slips.won || user.slips.lost || user.slips.pending">
+      <canvas baseChart
+              chartType="pie"
+              [data]="[user.slips.won, user.slips.lost, user.slips.pending]"
+              [legend]="false"
+              [colors]="colors"
+              [labels]="['win', 'lose', 'pending']"></canvas>
+    </div>
+  </mat-card>
+</div>
