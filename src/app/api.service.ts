@@ -25,8 +25,14 @@ export class ApiService {
   private _selected = {};
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1);
+  private _version = '00001';
 
   constructor (private httpClient: HttpClient) {
+    if (window.localStorage.getItem('version') !== this._version) {
+      window.localStorage.clear();
+      window.localStorage.setItem('version', this._version);
+    }
+
     this._odds = JSON.parse(window.localStorage.getItem('odds')) || {};
     this._teams = JSON.parse(window.localStorage.getItem('teams')) || {};
     this._matches = JSON.parse(window.localStorage.getItem('matches')) || {};
