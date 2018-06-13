@@ -6,12 +6,31 @@
 
   mat-toolbar {
     flex: 0 0 auto;
+    color: #F5F5F5;
     display: flex;
     align-items: center;
+    background-color: #1E88E5;
+
+    span {
+      margin-right: 10px;
+    }
 
     a {
+      color: #F5F5F5 !important;
       line-height: 1;
-      margin-left: 5px;
+
+      mat-icon {
+        padding: 16px;
+      }
+
+      &:visited {
+        color: #F5F5F5 !important;
+      }
+
+      &.active {
+        background-color: #42A5F5;
+      }
+
     }
 
     a:last-child {
