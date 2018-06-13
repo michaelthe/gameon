@@ -39,6 +39,19 @@
     }
   }
 
+  .loading {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #42A5F5;
+  }
+
   router-outlet {
     flex: 1 1 auto;
   }

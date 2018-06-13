@@ -4,15 +4,19 @@
   align-items: flex-start;
   justify-content: space-between;
 
-  span {
-    flex: 0 1 auto;
+  .date {
+    flex: 0 0 130px;
+  }
+
+  .teams {
+    flex: 1 1 auto;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
 
-    &:last-child {
-      flex: 0 0 auto;
-      margin-left: 5px;
-    }
+  .bet {
+    flex: 0 0 auto;
+    margin-left: 5px;
   }
 }

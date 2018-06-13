@@ -6,22 +6,33 @@
   .match-card {
     flex: 1 1 auto;
     margin: 10px;
-    display: flex;
     max-width: 500px;
-    align-items: center;
 
-    .team-container {
-      flex: 1 1 100px;
+    .date {
+      flex: 0 0 auto;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+    }
+
+    .options {
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
-      flex-direction: column;
 
-      mat-icon {
-        margin: 2px 2px 12px 2px;
-      }
+      .team-container {
+        flex: 1 1 100px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
 
-      img {
-        margin-bottom: 10px;
+        mat-icon {
+          margin: 2px 2px 12px 2px;
+        }
+
+        img {
+          margin-bottom: 10px;
+        }
       }
     }
   }

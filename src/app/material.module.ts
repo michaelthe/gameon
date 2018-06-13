@@ -9,6 +9,7 @@ import {
   MatSnackBarModule,
   MatFormFieldModule,
   MatButtonToggleModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 const modules = [
@@ -20,7 +21,8 @@ const modules = [
   MatCheckboxModule,
   MatSnackBarModule,
   MatFormFieldModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({

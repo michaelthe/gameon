@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -106,15 +108,19 @@ export class ApiService {
 
   public match (id) {
     if (this._matches[id]) {
+      this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm');
       return of(this._matches[id]);
     }
 
     return this.httpClient
       .get(environment.apiEndpoint + '/match?id=' + id, this._options())
-      .pipe(tap((match: Match) => {
+      .pipe(map((match: Match) => {
         this._matches[match.id] = match;
+        this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm');
+
         window.localStorage.setItem('matches', JSON.stringify(this._matches));
-        console.log({match});
+
+        return this._matches[match.id];
       }));
   }
 
@@ -184,6 +190,7 @@ export interface Odd {
 
 export interface Match {
   id: number;
+  date: string;
   result: string;
   startTime: number;
   awayTeamId: number;

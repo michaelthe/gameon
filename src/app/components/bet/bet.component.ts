@@ -1,6 +1,6 @@
+import { switchMap } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService, Match, Odd } from '../../api.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'go-bet',

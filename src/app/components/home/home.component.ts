@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, BET, Odd } from '../../api.service';
-import { MatSnackBar } from '@angular/material';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'go-home',
@@ -8,6 +7,8 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  public loading = true;
 
   constructor (private apiService: ApiService) {}
 
@@ -19,5 +20,10 @@ export class HomeComponent implements OnInit {
           return window.location.href = '/login';
         }
       });
+
+    setTimeout(() => {
+      window.localStorage.setItem('loaded', 'true');
+      this.loading = false;
+    }, window.localStorage.getItem('loaded') === 'true' ? 2000 : 10000);
   }
 }
