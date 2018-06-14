@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core'
 
-import { SharedModule } from '../shared.module';
-import { HomeComponent } from './home/home.component';
-import { MatchComponent } from './match/match.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { BettingComponent } from './betting/betting.component';
-import { SlipsComponent } from './slips/slips.component';
-import { LogoutComponent } from './logout/logout.component';
-import { BetComponent } from './bet/bet.component';
-import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { SharedModule } from '../shared.module'
+import { HomeComponent } from './home/home.component'
+import { MatchComponent } from './match/match.component'
+import { LoginComponent } from './login/login.component'
+import { SignupComponent } from './signup/signup.component'
+import { BettingComponent } from './betting/betting.component'
+import { SlipsComponent } from './slips/slips.component'
+import { LogoutComponent } from './logout/logout.component'
+import { BetComponent } from './bet/bet.component'
+import { LeaderboardComponent } from './leaderboard/leaderboard.component'
 
 const components = [
   HomeComponent,
@@ -17,7 +17,7 @@ const components = [
   SignupComponent,
   LogoutComponent,
   LeaderboardComponent,
-];
+]
 
 @NgModule({
   imports: [

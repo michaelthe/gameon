@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../api.service';
+import { Component, OnInit } from '@angular/core'
+import { ApiService } from '../../api.service'
 
 @Component({
   selector: 'go-logout',
@@ -11,7 +11,7 @@ export class LogoutComponent implements OnInit {
   constructor (private apiService: ApiService) { }
 
   ngOnInit () {
-    this.apiService.logout().subscribe();
+    this.apiService.logout().subscribe()
   }
 
 }

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ApiService, BET, Match, Odd, Team } from '../../api.service';
+import { Component, Input, OnInit } from '@angular/core'
+import { ApiService, BET, Match, Odd, Team } from '../../api.service'
 
 @Component({
   selector: 'go-match',
@@ -8,12 +8,12 @@ import { ApiService, BET, Match, Odd, Team } from '../../api.service';
 })
 export class MatchComponent implements OnInit {
 
-  @Input() public odd: Odd;
+  @Input() public odd: Odd
 
-  public bet = BET;
-  public match: Match;
-  public homeTeam: Team;
-  public awayTeam: Team;
+  public bet = BET
+  public match: Match
+  public homeTeam: Team
+  public awayTeam: Team
 
   constructor (private apiService: ApiService) { }
 
@@ -21,22 +21,22 @@ export class MatchComponent implements OnInit {
     this.apiService
       .match(this.odd.matchId)
       .subscribe(match => {
-        this.match = match;
-        this.loadTeams();
-      });
+        this.match = match
+        this.loadTeams()
+      })
   }
 
   public toggle (bet: BET) {
-    this.apiService.toggle(this.odd.id, bet);
+    this.apiService.toggle(this.odd.id, bet)
   }
 
   private loadTeams () {
     this.apiService
       .team(this.match.homeTeamId)
-      .subscribe(team => this.homeTeam = team);
+      .subscribe(team => this.homeTeam = team)
 
     this.apiService
       .team(this.match.awayTeamId)
-      .subscribe(team => this.awayTeam = team);
+      .subscribe(team => this.awayTeam = team)
   }
 }

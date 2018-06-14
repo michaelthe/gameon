@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { Component, OnInit } from '@angular/core'
+import { MatSnackBar } from '@angular/material'
 
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../api.service'
 
 @Component({
   selector: 'go-signup',
@@ -9,10 +9,10 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  public email = '';
-  public nickname = '';
-  public username = '';
-  public password = '';
+  public email = ''
+  public nickname = ''
+  public username = ''
+  public password = ''
 
   constructor (private apiService: ApiService, private snackBar: MatSnackBar) { }
 
@@ -24,9 +24,9 @@ export class SignupComponent implements OnInit {
     this.apiService
       .signup(this.email, this.nickname, this.username, this.password)
       .subscribe(res => {
-        window.location.href = '/home';
+        window.location.href = '/home'
       }, error => {
-        this.snackBar.open(error.error.message, 'ok');
-      });
+        this.snackBar.open(error.error.message, 'ok')
+      })
   }
 }

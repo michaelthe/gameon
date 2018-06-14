@@ -1,93 +1,93 @@
-import * as moment from 'moment';
+import * as moment from 'moment'
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
 
-import { map, tap } from 'rxjs/operators';
-import { of, ReplaySubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators'
+import { of, ReplaySubject } from 'rxjs'
 
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  public isLoggedIn$ = new ReplaySubject(1);
+  public isLoggedIn$ = new ReplaySubject(1)
 
-  private _token = '';
+  private _token = ''
 
-  private _activeOdds: Odd[] = [];
+  private _activeOdds: Odd[] = []
 
-  private _odds = {};
-  private _teams = {};
-  private _matches = {};
-  private _selected = {};
+  private _odds = {}
+  private _teams = {}
+  private _matches = {}
+  private _selected = {}
 
-  private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1);
-  private _version = '00001';
+  private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
+  private _version = '00001'
 
   constructor (private httpClient: HttpClient) {
     if (window.localStorage.getItem('version') !== this._version) {
-      window.localStorage.clear();
-      window.localStorage.setItem('version', this._version);
+      window.localStorage.clear()
+      window.localStorage.setItem('version', this._version)
     }
 
-    this._odds = JSON.parse(window.localStorage.getItem('odds')) || {};
-    this._teams = JSON.parse(window.localStorage.getItem('teams')) || {};
-    this._matches = JSON.parse(window.localStorage.getItem('matches')) || {};
-    this._selected = JSON.parse(window.localStorage.getItem('selected')) || {};
+    this._odds = JSON.parse(window.localStorage.getItem('odds')) || {}
+    this._teams = JSON.parse(window.localStorage.getItem('teams')) || {}
+    this._matches = JSON.parse(window.localStorage.getItem('matches')) || {}
+    this._selected = JSON.parse(window.localStorage.getItem('selected')) || {}
 
-    this._token = window.localStorage.getItem('token') || '';
+    this._token = window.localStorage.getItem('token') || ''
 
     this.user()
       .subscribe(res => {
-        this.isLoggedIn$.next(true);
+        this.isLoggedIn$.next(true)
 
         this.httpClient
           .get(environment.apiEndpoint + '/odds', this._options())
           .subscribe((odds: Odd[]) => {
-            this._activeOdds = odds;
-            this._nextOdds();
-          });
+            this._activeOdds = odds
+            this._nextOdds()
+          })
       }, error => {
-        window.localStorage.setItem('token', this._token = '');
-        this.isLoggedIn$.next(false);
-      });
+        window.localStorage.setItem('token', this._token = '')
+        this.isLoggedIn$.next(false)
+      })
   }
 
   public login (username, password) {
     return this.httpClient
       .post(environment.apiEndpoint + '/login', {username, password})
       .pipe(tap(response => {
-        window.localStorage.setItem('token', this._token = response['access_token']);
-        this.isLoggedIn$.next(true);
-      }));
+        window.localStorage.setItem('token', this._token = response['access_token'])
+        this.isLoggedIn$.next(true)
+      }))
   }
 
   public signup (email, nickname, username, password) {
     return this.httpClient
       .post(environment.apiEndpoint + '/user', {email, nickname, username, password})
       .pipe(tap(response => {
-        window.localStorage.setItem('token', this._token = response['access_token']);
-        this.isLoggedIn$.next(true);
-      }));
+        window.localStorage.setItem('token', this._token = response['access_token'])
+        this.isLoggedIn$.next(true)
+      }))
   }
 
   public logout () {
     return this.httpClient
       .get(environment.apiEndpoint + '/logout', this._options())
       .pipe(tap(() => {
-        window.localStorage.setItem('token', this._token = '');
-        this.isLoggedIn$.next(false);
+        window.localStorage.setItem('token', this._token = '')
+        this.isLoggedIn$.next(false)
 
-        window.location.href = '/login';
-      }));
+        window.location.href = '/login'
+      }))
   }
 
   public user () {
     return this.httpClient
-      .get(environment.apiEndpoint + '/user', this._options());
+      .get(environment.apiEndpoint + '/user', this._options())
     // .pipe(map((user: any) => {
     // user.slip = user.slip.reverse();
     // return user;
@@ -95,89 +95,89 @@ export class ApiService {
   }
 
   public leaderboard () {
-    return this.httpClient.get(environment.apiEndpoint + '/leaderboard', this._options());
+    return this.httpClient.get(environment.apiEndpoint + '/leaderboard', this._options())
   }
 
   public odds () {
-    return this._odds$;
+    return this._odds$
   }
 
   public odd (id) {
     if (this._odds[id]) {
-      return of(this._odds[id]);
+      return of(this._odds[id])
     }
 
     return this.httpClient
       .get(environment.apiEndpoint + '/odd?id=' + id, this._options())
       .pipe(tap((odd: Odd) => {
-        this._odds[odd.id] = odd;
-        window.localStorage.setItem('odds', JSON.stringify(this._odds));
-      }));
+        this._odds[odd.id] = odd
+        window.localStorage.setItem('odds', JSON.stringify(this._odds))
+      }))
   }
 
   public match (id) {
     if (this._matches[id]) {
-      this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm');
-      return of(this._matches[id]);
+      this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
+      return of(this._matches[id])
     }
 
     return this.httpClient
       .get(environment.apiEndpoint + '/match?id=' + id, this._options())
       .pipe(map((match: Match) => {
-        this._matches[match.id] = match;
-        this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm');
+        this._matches[match.id] = match
+        this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
 
-        window.localStorage.setItem('matches', JSON.stringify(this._matches));
+        window.localStorage.setItem('matches', JSON.stringify(this._matches))
 
-        return this._matches[match.id];
-      }));
+        return this._matches[match.id]
+      }))
   }
 
   public team (id) {
     if (this._teams[id]) {
-      return of(this._teams[id]);
+      return of(this._teams[id])
     }
 
     return this.httpClient
       .get(environment.apiEndpoint + '/team?id=' + id, this._options())
       .pipe(tap((team: Team) => {
-        this._teams[team.id] = team;
-        window.localStorage.setItem('teams', JSON.stringify(this._teams));
-      }));
+        this._teams[team.id] = team
+        window.localStorage.setItem('teams', JSON.stringify(this._teams))
+      }))
   }
 
   public toggle (oddId: number, bet: BET) {
-    this._selected[oddId] = this._selected[oddId] === bet ? BET.NONE : bet;
-    window.localStorage.setItem('selected', JSON.stringify(this._selected));
-    this._nextOdds();
+    this._selected[oddId] = this._selected[oddId] === bet ? BET.NONE : bet
+    window.localStorage.setItem('selected', JSON.stringify(this._selected))
+    this._nextOdds()
   }
 
   public discard () {
-    this._selected = {};
-    window.localStorage.setItem('selected', JSON.stringify(this._selected));
-    this._nextOdds();
+    this._selected = {}
+    window.localStorage.setItem('selected', JSON.stringify(this._selected))
+    this._nextOdds()
   }
 
   public bet (amount) {
     const bets = this._activeOdds
       .filter(odd => odd.selected && odd.selected !== BET.NONE)
-      .map(odd => ({oddId: odd.id, selected: odd.selected}));
+      .map(odd => ({oddId: odd.id, selected: odd.selected}))
 
     return this.httpClient
       .post(environment.apiEndpoint + '/slip', {bets, amount}, this._options())
-      .pipe(tap(() => this.discard()));
+      .pipe(tap(() => this.discard()))
   }
 
   private _nextOdds () {
     this._activeOdds.forEach(odd => {
-      odd.selected = this._selected[odd.id] || BET.NONE;
-    });
+      odd.selected = this._selected[odd.id] || BET.NONE
+    })
 
-    this._odds$.next(this._activeOdds);
+    this._odds$.next(this._activeOdds)
   }
 
   private _options () {
-    return {headers: {Authorization: 'Bearer ' + this._token}};
+    return {headers: {Authorization: 'Bearer ' + this._token}}
   }
 }
 
