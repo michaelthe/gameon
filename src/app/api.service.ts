@@ -112,7 +112,6 @@ export class ApiService {
       .pipe(tap((odd: Odd) => {
         this._odds[odd.id] = odd;
         window.localStorage.setItem('odds', JSON.stringify(this._odds));
-        console.log({odd});
       }));
   }
 
@@ -144,7 +143,6 @@ export class ApiService {
       .pipe(tap((team: Team) => {
         this._teams[team.id] = team;
         window.localStorage.setItem('teams', JSON.stringify(this._teams));
-        console.log({team});
       }));
   }
 
