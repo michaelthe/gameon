@@ -15,8 +15,9 @@
     text-overflow: ellipsis;
   }
 
-  .bet {
-    flex: 0 0 auto;
+  .bet, .result {
+    flex: 0 0 50px;
+    text-align: right;
     margin-left: 5px;
   }
 }

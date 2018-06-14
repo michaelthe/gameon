@@ -25,7 +25,7 @@ export class ApiService {
   private _selected = {}
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
-  private _version = '00002'
+  private _version = '00003'
 
   constructor (private httpClient: HttpClient) {
     if (window.localStorage.getItem('version') !== this._version) {
@@ -117,7 +117,6 @@ export class ApiService {
 
   public match (id) {
     if (this._matches[id] && (Date.now() < this._matches[id].startTime || this._matches[id].startTime + 3 * 60 * 60 * 1000 < Date.now())) {
-      this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
       return of(this._matches[id])
     }
 
@@ -125,6 +124,8 @@ export class ApiService {
       .get(environment.apiEndpoint + '/match?id=' + id, this._options())
       .pipe(map((match: Match) => {
         this._matches[match.id] = match
+
+        // add date
         this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
 
         window.localStorage.setItem('matches', JSON.stringify(this._matches))
