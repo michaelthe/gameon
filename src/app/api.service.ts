@@ -116,7 +116,7 @@ export class ApiService {
   }
 
   public match (id) {
-    if (this._matches[id]) {
+    if (this._matches[id] && (Date.now() < this._matches[id].startTime || this._matches[id].startTime + 3 * 60 * 60 * 1000 < Date.now())) {
       this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
       return of(this._matches[id])
     }
