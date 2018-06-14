@@ -25,7 +25,7 @@ export class ApiService {
   private _selected = {}
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
-  private _version = '00003'
+  private _version = '00004'
 
   constructor (private httpClient: HttpClient) {
     if (window.localStorage.getItem('version') !== this._version) {
@@ -211,6 +211,7 @@ export interface Odd {
 export interface Match {
   id: number;
   date: string;
+  score: string;
   result: string;
   startTime: number;
   awayTeamId: number;
