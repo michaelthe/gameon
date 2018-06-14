@@ -27,7 +27,7 @@ export class MatchComponent implements OnInit {
   }
 
   public toggle (bet: BET) {
-    this.apiService.toggle(this.odd.id, bet)
+    this.apiService.toggle(this.odd.matchId, bet)
   }
 
   private loadTeams () {

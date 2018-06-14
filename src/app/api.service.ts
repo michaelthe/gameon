@@ -3,8 +3,8 @@ import * as moment from 'moment'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
-import { map, tap } from 'rxjs/operators'
-import { of, ReplaySubject } from 'rxjs'
+import { map, switchMap, tap } from 'rxjs/operators'
+import { of, ReplaySubject, timer } from 'rxjs'
 
 import { environment } from '../environments/environment'
 
@@ -25,7 +25,7 @@ export class ApiService {
   private _selected = {}
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
-  private _version = '00001'
+  private _version = '00002'
 
   constructor (private httpClient: HttpClient) {
     if (window.localStorage.getItem('version') !== this._version) {
@@ -44,8 +44,8 @@ export class ApiService {
       .subscribe(res => {
         this.isLoggedIn$.next(true)
 
-        this.httpClient
-          .get(environment.apiEndpoint + '/odds', this._options())
+        timer(0, 30 * 1000)
+          .pipe(switchMap(_ => this.httpClient.get(environment.apiEndpoint + '/odds', this._options())))
           .subscribe((odds: Odd[]) => {
             this._activeOdds = odds
             this._nextOdds()
@@ -129,6 +129,7 @@ export class ApiService {
 
         window.localStorage.setItem('matches', JSON.stringify(this._matches))
 
+        this._nextOdds()
         return this._matches[match.id]
       }))
   }
@@ -146,8 +147,8 @@ export class ApiService {
       }))
   }
 
-  public toggle (oddId: number, bet: BET) {
-    this._selected[oddId] = this._selected[oddId] === bet ? BET.NONE : bet
+  public toggle (matchId: number, bet: BET) {
+    this._selected[matchId] = this._selected[matchId] === bet ? BET.NONE : bet
     window.localStorage.setItem('selected', JSON.stringify(this._selected))
     this._nextOdds()
   }
@@ -169,11 +170,21 @@ export class ApiService {
   }
 
   private _nextOdds () {
-    this._activeOdds.forEach(odd => {
-      odd.selected = this._selected[odd.id] || BET.NONE
-    })
+    this._activeOdds
+      .forEach(odd => {
+        odd.selected = this._selected[odd.matchId] || BET.NONE
+      })
 
-    this._odds$.next(this._activeOdds)
+    const sorted = this._activeOdds
+      .sort((a: Odd, b: Odd) => {
+        const now = Date.now()
+        const ma = this._matches[a.matchId] ? this._matches[a.matchId].startTime : now
+        const mb = this._matches[b.matchId] ? this._matches[b.matchId].startTime : now
+
+        return ma - mb
+      })
+
+    this._odds$.next(sorted)
   }
 
   private _options () {
