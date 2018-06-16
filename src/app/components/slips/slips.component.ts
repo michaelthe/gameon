@@ -1,5 +1,5 @@
+import { ApiService, User } from '../../api.service'
 import { Component, OnInit } from '@angular/core'
-import { ApiService } from '../../api.service'
 
 @Component({
   selector: 'go-user',
@@ -14,7 +14,7 @@ export class SlipsComponent implements OnInit {
   public ngOnInit () {
     this.apiService
       .user()
-      .subscribe((user: any) => {
+      .subscribe((user: User) => {
         this.user = user
       })
   }

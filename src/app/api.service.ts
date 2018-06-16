@@ -88,10 +88,6 @@ export class ApiService {
   public user () {
     return this.httpClient
       .get(environment.apiEndpoint + '/user', this._options())
-    // .pipe(map((user: any) => {
-    // user.slip = user.slip.reverse();
-    // return user;
-    // }));
   }
 
   public leaderboard () {
@@ -198,6 +194,18 @@ export enum BET {
   DRAW = 'draw',
   AWAY = 'away',
   NONE = 'none',
+}
+
+export interface User {
+  username: string,
+  admin: boolean,
+  balance: number,
+  nickname: string,
+  slips: {
+    amount: number,
+    status: string
+    bets: { selected: BET, oddId: number }[]
+  }[]
 }
 
 export interface Odd {
