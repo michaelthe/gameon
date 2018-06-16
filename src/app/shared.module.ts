@@ -8,6 +8,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core'
 import { ApiService } from './api.service'
 import { MaterialModule } from './material.module'
 import { AppRoutingModule } from './app-routing.module'
+import { SlipPipe } from './slip.pipe'
 
 const modules = [
   FormsModule,
@@ -24,8 +25,10 @@ const modules = [
     ...modules
   ],
   exports: [
+    SlipPipe,
     ...modules,
-  ]
+  ],
+  declarations: [SlipPipe]
 })
 export class SharedModule {
   static forRoot (): ModuleWithProviders {
