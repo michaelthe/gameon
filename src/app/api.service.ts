@@ -112,7 +112,7 @@ export class ApiService {
   }
 
   public match (id) {
-    if (this._matches[id] && (Date.now() < this._matches[id].startTime || this._matches[id].startTime + 3 * 60 * 60 * 1000 < Date.now())) {
+    if (this._matches[id] && (Date.now() < this._matches[id].startTime || this._matches[id].updateTime > this._matches[id].startTime + 3 * 60 * 60 * 1000)) {
       return of(this._matches[id])
     }
 
@@ -123,6 +123,7 @@ export class ApiService {
 
         // add date
         this._matches[id].date = moment(this._matches[id].startTime).format('ddd, Do HH:mm')
+        this._matches[id].updateTime = Date.now()
 
         window.localStorage.setItem('matches', JSON.stringify(this._matches))
 
@@ -222,6 +223,7 @@ export interface Match {
   score: string;
   result: string;
   startTime: number;
+  upadteTime: number;
   awayTeamId: number;
   homeTeamId: number;
 }
