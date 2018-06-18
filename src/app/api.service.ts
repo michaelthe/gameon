@@ -25,7 +25,7 @@ export class ApiService {
   private _selected = {}
 
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
-  private _version = '00004'
+  private _version = '00005'
 
   constructor (private httpClient: HttpClient) {
     if (window.localStorage.getItem('version') !== this._version) {
