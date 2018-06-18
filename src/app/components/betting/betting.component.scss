@@ -13,34 +13,64 @@
     justify-content: center;
 
     mat-card {
-      flex: 1 1 auto;
-      margin: 10px;
+      top: 0;
+      width: calc(100% - 52px);
       display: flex;
+      position: absolute;
       max-width: 500px;
-      align-items: center;
+      transform: translateY(-500px);
+      transition: all 250ms ease-in-out;
+      padding-bottom: 0;
+      flex-direction: column;
+      animation-fill-mode: both;
 
-      .info {
-        flex: 1 1 200px;
+      &.show {
+        transform: translateY(-87px);
+        background-color: #FFCA28;
+
+        &.open {
+          transform: translateY(70px);
+        }
       }
 
-      .options {
+      .content {
         flex: 1 1 auto;
+        margin: 10px 10px 0 10px;
         display: flex;
-        margin-left: 10px;
-        align-items: flex-end;
-        flex-direction: column;
+        max-width: 500px;
+        align-items: center;
 
-        mat-form-field {
-          width: 180px;
+        .info {
+          flex: 1 1 200px;
         }
 
-        .buttons {
+        .options {
+          flex: 1 1 auto;
           display: flex;
+          margin-left: 10px;
+          align-items: flex-end;
+          flex-direction: column;
 
-          button {
-            margin-left: 10px;
+          mat-form-field {
+            width: 180px;
+          }
+
+          .buttons {
+            display: flex;
+
+            button {
+              margin-left: 10px;
+            }
           }
         }
+      }
+
+      .toggle {
+        flex: 0 0 auto;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -48,5 +78,10 @@
   .matches {
     flex: 1 1 auto;
     overflow: auto;
+    transition: all 250ms ease-in-out;
+
+    &.slide {
+      margin-top: 45px;
+    }
   }
 }

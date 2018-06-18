@@ -11,6 +11,7 @@ export class BettingComponent implements OnInit {
   public odds: Odd[] = []
   public amount: number
   public betting: Odd[] = []
+  public showSlip = false
 
   constructor (private apiService: ApiService, private snackBar: MatSnackBar) {
     this.amount = JSON.parse(window.localStorage.getItem('amount')) || 1
@@ -30,6 +31,7 @@ export class BettingComponent implements OnInit {
       .subscribe(async (odds: Odd[]) => {
         this.odds = odds
         this.betting = odds.filter(odd => odd.selected && odd.selected !== BET.NONE)
+        this.showSlip = false
       })
   }
 
