@@ -1,15 +1,13 @@
-<div class="info">
-  <mat-card>
-    <span>Balance €{{ user?.balance }}</span>
+<mat-card class="info">
+  <span>Balance €{{ user?.balance }}</span>
 
-    <mat-button-toggle-group #group="matButtonToggleGroup">
-      <mat-button-toggle checked value="all">A</mat-button-toggle>
-      <mat-button-toggle value="won">W</mat-button-toggle>
-      <mat-button-toggle value="lost">L</mat-button-toggle>
-      <mat-button-toggle value="pending">P</mat-button-toggle>
-    </mat-button-toggle-group>
-  </mat-card>
-</div>
+  <mat-button-toggle-group #group="matButtonToggleGroup">
+    <mat-button-toggle checked value="all">A</mat-button-toggle>
+    <mat-button-toggle value="won">W</mat-button-toggle>
+    <mat-button-toggle value="lost">L</mat-button-toggle>
+    <mat-button-toggle value="pending">P</mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-card>
 
 <div class="slips">
   <mat-card *ngFor="let slip of user?.slips | slip:group.value">

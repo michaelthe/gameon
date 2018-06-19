@@ -1,31 +1,24 @@
-<mat-card class="match-card">
+<mat-card>
   <div class="date">{{ match?.date }}</div>
 
-  <div class="options">
-    <div class="team-container">
-      <div>{{odd.odds.home}}</div>
-      <img [src]="homeTeam?.logo_url"/>
-      <button mat-raised-button
-              (click)="toggle(bet.HOME)"
-              [color]="odd.selected === bet.HOME ? 'primary' : ''">{{homeTeam?.name}}
-      </button>
-    </div>
-    <div class="team-container">
-      <div>{{odd.odds.draw}}</div>
-      <mat-icon>crop</mat-icon>
-      <button mat-raised-button
-              (click)="toggle(bet.DRAW)"
-              [color]="odd.selected === bet.DRAW ? 'primary' : ''">Draw
-      </button>
+  <div class="content">
+    <div class="teams">
+      <div class="team">
+        <img [src]="homeTeam?.logo_url"/>
+        <span>{{homeTeam?.name}}</span>
+      </div>
+      <div class="team">
+        <img [src]="awayTeam?.logo_url"/>
+        <span>{{awayTeam?.name}}</span>
+      </div>
     </div>
 
-    <div class="team-container">
-      <div>{{odd.odds.away}}</div>
-      <img [src]="awayTeam?.logo_url"/>
-      <button mat-raised-button
-              (click)="toggle(bet.AWAY)"
-              [color]="odd.selected === bet.AWAY ? 'primary' : ''">{{awayTeam?.name}}
-      </button>
+    <div class="options">
+      <button mat-raised-button (click)="toggle(bet.HOME)" [color]="odd.selected === bet.HOME ? 'primary' : ''">Home {{odd.odds.home}}</button>
+      <button mat-raised-button (click)="toggle(bet.DRAW)" [color]="odd.selected === bet.DRAW ? 'primary' : ''">Draw {{odd.odds.draw}}</button>
+      <button mat-raised-button (click)="toggle(bet.AWAY)" [color]="odd.selected === bet.AWAY ? 'primary' : ''">Away {{odd.odds.away}}</button>
+      <button mat-raised-button (click)="toggle(bet.OVER)" [color]="odd.selected === bet.OVER ? 'primary' : ''">Over {{odd.odds.over}}</button>
+      <button mat-raised-button (click)="toggle(bet.UNDER)" [color]="odd.selected === bet.UNDER ? 'primary' : ''">Under {{odd.odds.under}}</button>
     </div>
   </div>
 </mat-card>

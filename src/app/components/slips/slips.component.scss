@@ -5,30 +5,18 @@
   align-items: center;
   flex-direction: column;
 
-  .info {
+  mat-card.info {
     flex: 0 0 auto;
-    width: 100%;
     display: flex;
-    align-self: center;
     align-items: center;
 
-    justify-content: center;
-
-    mat-card {
+    span {
       flex: 1 1 auto;
-      margin: 10px;
-      display: flex;
-      max-width: 500px;
-      align-items: center;
+    }
 
-      span {
-        flex: 1 1 auto;
-      }
-
-      mat-button-toggle-group {
-        flex: 0 0 auto;
-        margin-left: 5px;
-      }
+    mat-button-toggle-group {
+      flex: 0 0 auto;
+      margin-left: 5px;
     }
   }
 
@@ -43,10 +31,6 @@
 
     mat-card {
       flex: 0 0 auto;
-      width: calc(100% - 52px);
-      margin: 10px;
-      display: flex;
-      max-width: 500px;
       align-items: flex-start;
       flex-direction: column;
 

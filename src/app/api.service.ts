@@ -95,10 +95,17 @@ export class ApiService {
 
     this.httpClient
       .get(environment.apiEndpoint + '/user', this._options())
-      .subscribe((user: User) => {
-        this._user$.next(user)
-        this._user$ = null
-      }, error => this._user$.error(error), () => this._user$.complete())
+      .subscribe(
+        (user: User) => {
+          this._user$.next(user)
+        },
+        error => {
+          this._user$.error(error)
+        },
+        () => {
+          this._user$.complete()
+          this._user$ = null
+        })
 
     return this._user$
   }
@@ -207,7 +214,9 @@ export enum BET {
   HOME = 'home',
   DRAW = 'draw',
   AWAY = 'away',
+  OVER = 'over',
   NONE = 'none',
+  UNDER = 'under',
 }
 
 export interface User {
@@ -227,7 +236,7 @@ export interface Odd {
   active: boolean;
   selected: BET;
   matchId: number;
-  odds: { home: number, draw: number, away: number };
+  odds: { home: number, draw: number, away: number, over: number, under: number };
 }
 
 export interface Match {

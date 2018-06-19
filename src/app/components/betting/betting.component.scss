@@ -4,74 +4,64 @@
   overflow: hidden;
   flex-direction: column;
 
-  .bet {
-    flex: 0 0 auto;
-    width: 100%;
-    display: flex;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
+  mat-card {
+    top: 0;
+    left: 50%;
+    z-index: 10;
+    position: absolute;
+    transform: translateY(-500px) translateX(-50%);
+    transition: all 250ms ease-in-out;
+    padding-bottom: 0;
+    flex-direction: column;
+    animation-fill-mode: both;
 
-    mat-card {
-      top: 0;
-      width: calc(100% - 52px);
+    &.show {
+      transform: translateY(-95px) translateX(-50%);
+      background-color: #FFCA28;
+
+      &.open {
+        transform: translateY(55px) translateX(-50%);
+      }
+    }
+
+    .content {
+      flex: 1 1 auto;
+      margin: 10px 10px 0 10px;
       display: flex;
-      position: absolute;
       max-width: 500px;
-      transform: translateY(-500px);
-      transition: all 250ms ease-in-out;
-      padding-bottom: 0;
-      flex-direction: column;
-      animation-fill-mode: both;
+      align-items: center;
 
-      &.show {
-        transform: translateY(-87px);
-        background-color: #FFCA28;
-
-        &.open {
-          transform: translateY(70px);
-        }
+      .info {
+        flex: 1 1 200px;
       }
 
-      .content {
+      .options {
         flex: 1 1 auto;
-        margin: 10px 10px 0 10px;
         display: flex;
-        max-width: 500px;
-        align-items: center;
+        margin-left: 10px;
+        align-items: flex-end;
+        flex-direction: column;
 
-        .info {
-          flex: 1 1 200px;
+        mat-form-field {
+          width: 180px;
         }
 
-        .options {
-          flex: 1 1 auto;
+        .buttons {
           display: flex;
-          margin-left: 10px;
-          align-items: flex-end;
-          flex-direction: column;
 
-          mat-form-field {
-            width: 180px;
-          }
-
-          .buttons {
-            display: flex;
-
-            button {
-              margin-left: 10px;
-            }
+          button {
+            margin-left: 10px;
           }
         }
       }
+    }
 
-      .toggle {
-        flex: 0 0 auto;
-        padding: 12px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .toggle {
+      flex: 0 0 auto;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
@@ -83,5 +73,19 @@
     &.slide {
       margin-top: 45px;
     }
+  }
+
+  .loading {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(#42A5F5, 0.6);
   }
 }

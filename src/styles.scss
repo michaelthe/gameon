@@ -6,6 +6,14 @@ body, go-root {
   height: 100vh;
   margin: 0;
   padding: 0;
-  display: block;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
   background-color: #42A5F5;
+}
+
+mat-card {
+  width: calc(100% - 52px);
+  margin: 10px auto;
+  max-width: 500px;
 }

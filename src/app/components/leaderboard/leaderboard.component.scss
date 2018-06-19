@@ -16,10 +16,7 @@
 
     mat-card {
       flex: 0 0 auto;
-      width: calc(100% - 52px);
-      margin: 10px;
       display: flex;
-      max-width: 500px;
       align-items: center;
 
       .name {

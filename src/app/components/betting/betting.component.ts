@@ -11,6 +11,7 @@ export class BettingComponent implements OnInit {
   public odds: Odd[] = []
   public amount: number
   public betting: Odd[] = []
+  public loading = false
   public showSlip = false
 
   constructor (private apiService: ApiService, private snackBar: MatSnackBar) {
@@ -36,8 +37,10 @@ export class BettingComponent implements OnInit {
   }
 
   public bet () {
+    this.loading = true
     this.apiService.bet(this.amount)
       .subscribe((result: { message: string }) => {
+        this.loading = false
         this.snackBar.open(result.message, 'ok')
       })
   }
