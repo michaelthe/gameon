@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 import { map, switchMap, tap } from 'rxjs/operators'
-import { of, ReplaySubject, timer } from 'rxjs'
+import { of, ReplaySubject, Subject, timer } from 'rxjs'
 
 import { environment } from '../environments/environment'
 
@@ -24,6 +24,7 @@ export class ApiService {
   private _matches = {}
   private _selected = {}
 
+  private _user$: Subject<User>
   private _odds$: ReplaySubject<Odd[]> = new ReplaySubject(1)
   private _version = '00005'
 
@@ -86,8 +87,20 @@ export class ApiService {
   }
 
   public user () {
-    return this.httpClient
+    if (this._user$) {
+      return this._user$
+    }
+
+    this._user$ = new Subject<User>()
+
+    this.httpClient
       .get(environment.apiEndpoint + '/user', this._options())
+      .subscribe((user: User) => {
+        this._user$.next(user)
+        this._user$ = null
+      }, error => this._user$.error(error), () => this._user$.complete())
+
+    return this._user$
   }
 
   public leaderboard () {

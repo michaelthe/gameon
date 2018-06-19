@@ -22,21 +22,24 @@ export class MatchComponent implements OnInit {
       .match(this.odd.matchId)
       .subscribe(match => {
         this.match = match
-        this.loadTeams()
+
+        this.apiService
+          .team(this.match.homeTeamId)
+          .subscribe(team => this.homeTeam = team)
+
+        this.apiService
+          .team(this.match.awayTeamId)
+          .subscribe(team => this.awayTeam = team)
+
+        // this.apiService
+        //   .user()
+        //   .subscribe(user => {
+        //     console.log('kotsios', user)
+        //   })
       })
   }
 
   public toggle (bet: BET) {
     this.apiService.toggle(this.odd.matchId, bet)
-  }
-
-  private loadTeams () {
-    this.apiService
-      .team(this.match.homeTeamId)
-      .subscribe(team => this.homeTeam = team)
-
-    this.apiService
-      .team(this.match.awayTeamId)
-      .subscribe(team => this.awayTeam = team)
   }
 }
