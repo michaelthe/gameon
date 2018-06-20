@@ -1,5 +1,10 @@
 <mat-card>
-  <div class="date">{{ match?.date }}</div>
+  <div class="match-header">
+    <div class="date">{{ match?.date }}</div>
+    <div class="info" *ngIf="betCount > 0">
+      {{betCount + ' ' + (betCount > 1 ? 'bets' : 'bet')}}
+    </div>
+  </div>
 
   <div class="content">
     <div class="teams">
