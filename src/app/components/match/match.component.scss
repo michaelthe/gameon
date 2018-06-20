@@ -3,11 +3,20 @@
     flex: 1 1 auto;
     padding-bottom: 10px;
 
-    .date {
-      flex: 0 0 auto;
-      border-bottom: 1px solid #ccc;
+    .match-header {
+      display: flex;
       margin-bottom: 5px;
       padding-bottom: 5px;
+      border-bottom: 1px solid #ccc;
+      justify-content: space-between;
+
+      .date {
+        flex: 0 0 auto;
+      }
+
+      .info {
+        flex: 0 0 auto;
+      }
     }
 
     .content {

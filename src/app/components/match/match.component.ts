@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { ApiService, BET, Match, Odd, Team } from '../../api.service'
+import { ApiService, BET, Match, Odd, Team, User } from '../../api.service'
 
 @Component({
   selector: 'go-match',
@@ -14,15 +14,15 @@ export class MatchComponent implements OnInit {
   public match: Match
   public homeTeam: Team
   public awayTeam: Team
+  public betCount = 0
 
-  constructor (private apiService: ApiService) { }
+  constructor (private apiService: ApiService) {}
 
   ngOnInit () {
     this.apiService
       .match(this.odd.matchId)
-      .subscribe(match => {
+      .subscribe((match: Match) => {
         this.match = match
-
         this.apiService
           .team(this.match.homeTeamId)
           .subscribe(team => this.homeTeam = team)
@@ -30,12 +30,21 @@ export class MatchComponent implements OnInit {
         this.apiService
           .team(this.match.awayTeamId)
           .subscribe(team => this.awayTeam = team)
+      })
 
-        // this.apiService
-        //   .user()
-        //   .subscribe(user => {
-        //     console.log('kotsios', user)
-        //   })
+    this.apiService
+      .user()
+      .subscribe(async (user: User) => {
+        const activeSlips = user.slips.filter(slip => slip.status === 'pending')
+        for (const slip of activeSlips) {
+          for (const bet of slip.bets) {
+            const odd = <Odd> (await this.apiService.odd(bet.oddId).toPromise())
+
+            if (odd.matchId === this.odd.matchId) {
+              this.betCount++
+            }
+          }
+        }
       })
   }
 
