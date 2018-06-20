@@ -49,5 +49,4 @@ export class BettingComponent implements OnInit {
     this.apiService.discard()
     this.amount = 1
   }
-
 }

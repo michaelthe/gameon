@@ -19,8 +19,17 @@
       display: flex;
       align-items: center;
 
+      mat-icon {
+        color: #4CAF50;
+        margin-right: 5px;
+      }
+
       .name {
         flex: 1 1 auto;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-right: 5px;
+        text-overflow: ellipsis;
       }
 
       .money {

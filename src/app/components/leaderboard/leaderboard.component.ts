@@ -9,7 +9,7 @@ import { ApiService } from '../../api.service'
 export class LeaderboardComponent implements OnInit {
 
   public users = []
-  public colors = [{backgroundColor: ['#43A047', '#e53935', '#1E88E5']}]
+  public colors = [{backgroundColor: ['#e53935', '#1E88E5', '#43A047']}]
 
   constructor (private apiService: ApiService) { }
 
