@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core'
-import { MatSnackBar } from '@angular/material'
+import {Component, OnInit} from '@angular/core'
 
-import { ApiService } from '../../api.service'
+import {ApiService} from '../../api.service'
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'go-signup',
@@ -9,18 +9,19 @@ import { ApiService } from '../../api.service'
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  public email = ''
-  public nickname = ''
-  public username = ''
-  public password = ''
+  public email = '';
+  public nickname = '';
+  public username = '';
+  public password = '';
 
-  constructor (private apiService: ApiService, private snackBar: MatSnackBar) { }
+  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {
+  }
 
-  public ngOnInit () {
+  public ngOnInit() {
 
   }
 
-  public signup () {
+  public signup() {
     this.apiService
       .signup(this.email, this.nickname, this.username, this.password)
       .subscribe(res => {

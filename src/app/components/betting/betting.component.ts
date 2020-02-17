@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
-import { ApiService, BET, Odd } from '../../api.service'
-import { MatSnackBar } from '@angular/material'
+import {Component, OnInit} from '@angular/core'
+import {ApiService, BET, Odd} from '../../api.service'
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'go-betting',
@@ -8,45 +8,45 @@ import { MatSnackBar } from '@angular/material'
   styleUrls: ['./betting.component.scss']
 })
 export class BettingComponent implements OnInit {
-  public odds: Odd[] = []
-  public amount: number
-  public betting: Odd[] = []
-  public loading = false
-  public showSlip = false
+  public odds: Odd[] = [];
+  public amount: number;
+  public betting: Odd[] = [];
+  public loading = false;
+  public showSlip = false;
 
-  constructor (private apiService: ApiService, private snackBar: MatSnackBar) {
+  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {
     this.amount = JSON.parse(window.localStorage.getItem('amount')) || 1
   }
 
-  public get potential () {
+  public get potential() {
     return (this.amount * this.betting.reduce((multiple, bet) => multiple * bet.odds[bet.selected], 1)).toFixed(2)
   }
 
-  public amountChange () {
+  public amountChange() {
     window.localStorage.setItem('amount', JSON.stringify(this.amount))
   }
 
-  public ngOnInit () {
+  public ngOnInit() {
     this.apiService
       .odds()
       .subscribe(async (odds: Odd[]) => {
-        this.odds = odds
-        this.betting = odds.filter(odd => odd.selected && odd.selected !== BET.NONE)
+        this.odds = odds;
+        this.betting = odds.filter(odd => odd.selected && odd.selected !== BET.NONE);
         this.showSlip = false
       })
   }
 
-  public bet () {
-    this.loading = true
+  public bet() {
+    this.loading = true;
     this.apiService.bet(this.amount)
       .subscribe((result: { message: string }) => {
-        this.loading = false
+        this.loading = false;
         this.snackBar.open(result.message, 'ok')
       })
   }
 
-  public discard () {
-    this.apiService.discard()
+  public discard() {
+    this.apiService.discard();
     this.amount = 1
   }
 }

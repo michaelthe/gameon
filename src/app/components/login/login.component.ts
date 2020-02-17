@@ -1,7 +1,8 @@
-import { Component } from '@angular/core'
-import { MatSnackBar } from '@angular/material'
+import {Component} from '@angular/core'
 
-import { ApiService } from '../../api.service'
+
+import {ApiService} from '../../api.service'
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'go-login',
@@ -9,13 +10,13 @@ import { ApiService } from '../../api.service'
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  public username = ''
-  public password = ''
+  public username = '';
+  public password = '';
 
-  constructor (private apiService: ApiService, private snackBar: MatSnackBar) {
+  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {
   }
 
-  public login () {
+  public login() {
     this.apiService
       .login(this.username, this.password)
       .subscribe(res => {

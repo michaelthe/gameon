@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://gameon.blue",
+    "secure": false
+  }
+}
