@@ -1,4 +1,8 @@
 <span class="date">{{ match?.date }} </span>
-<span class="teams">{{homeTeam?.name}} - {{awayTeam?.name}}</span>
-<span class="score" *ngIf="match?.score">{{match?.score}}</span>
-<span class="bet">{{ bet?.selected }}</span>
+<spam class="teams">
+  <div>{{homeTeam?.name}}</div>
+  <div>&nbsp;vs&nbsp;</div>
+  <div>{{awayTeam?.name}}</div>
+</spam>
+<span *ngIf="match?.score" class="score">{{match?.score}}</span>
+<div class="bet">{{ bet?.selected }}</div>

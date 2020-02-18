@@ -3,6 +3,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -15,12 +16,13 @@ const modules = [
   MatIconModule,
   MatInputModule,
   MatButtonModule,
+  MatDividerModule,
   MatToolbarModule,
   MatCheckboxModule,
   MatSnackBarModule,
   MatFormFieldModule,
   MatButtonToggleModule,
-  MatProgressSpinnerModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

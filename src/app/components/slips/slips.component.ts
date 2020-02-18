@@ -1,5 +1,5 @@
-import { ApiService, User } from '../../api.service'
-import { Component, OnInit } from '@angular/core'
+import {ApiService, User} from '../../api.service'
+import {Component, OnInit} from '@angular/core'
 
 @Component({
   selector: 'go-user',
@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core'
   styleUrls: ['./slips.component.scss']
 })
 export class SlipsComponent implements OnInit {
-  public user
+  public user;
 
-  constructor (private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {
+  }
 
-  public ngOnInit () {
+  public ngOnInit() {
     this.apiService
       .user()
       .subscribe((user: User) => {

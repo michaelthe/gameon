@@ -17,6 +17,9 @@
       <span>status: {{ slip.status }}</span>
     </div>
 
-    <go-bet *ngFor="let bet of slip.bets" [bet]="bet"></go-bet>
+    <ng-container *ngFor="let bet of slip.bets; let f = first">
+      <mat-divider *ngIf="!f" inset></mat-divider>
+      <go-bet [bet]="bet"></go-bet>
+    </ng-container>
   </mat-card>
 </div>

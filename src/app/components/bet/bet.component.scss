@@ -1,7 +1,8 @@
 :host {
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+
   justify-content: space-between;
 
   .date {
@@ -10,7 +11,9 @@
 
   .teams {
     flex: 1 1 auto;
+    display: flex;
     overflow: hidden;
+    flex-wrap: wrap;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
