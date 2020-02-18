@@ -8,10 +8,12 @@
     <div class="options">
       <mat-form-field>
         <input matInput placeholder="Amount" type="number" [(ngModel)]="amount" (ngModelChange)="amountChange()">
+        <mat-hint *ngIf="!amount">Please enter a valid amount</mat-hint>
       </mat-form-field>
       <div class="buttons">
         <button mat-button color="secondary" [disabled]="!potential || loading" (click)="discard()">Clear</button>
-        <button mat-raised-button color="primary" [disabled]="!potential || loading" (click)="bet()">Bet</button>
+        <button mat-raised-button color="primary" [disabled]="!amount || !potential || loading" (click)="bet()">Bet
+        </button>
       </div>
     </div>
   </div>
