@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core'
-import {ApiService, BET, Odd} from '../../api.service'
 import {MatSnackBar} from '@angular/material/snack-bar';
+
+import {ApiService, BET, Odd} from '../../api.service'
 
 @Component({
   selector: 'go-betting',
@@ -14,7 +15,10 @@ export class BettingComponent implements OnInit {
   public loading = false;
   public showSlip = false;
 
-  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private apiService: ApiService,
+  ) {
     this.amount = JSON.parse(window.localStorage.getItem('amount')) || 1
   }
 
@@ -42,6 +46,9 @@ export class BettingComponent implements OnInit {
       .subscribe((result: { message: string }) => {
         this.loading = false;
         this.snackBar.open(result.message, 'ok')
+      }, error => {
+        this.loading = false;
+        this.snackBar.open(error.error.message, 'ok')
       })
   }
 

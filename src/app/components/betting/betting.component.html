@@ -7,27 +7,27 @@
 
     <div class="options">
       <mat-form-field>
-        <input matInput placeholder="Amount" type="number" [(ngModel)]="amount" (ngModelChange)="amountChange()">
-        <mat-hint *ngIf="!amount">Please enter a valid amount</mat-hint>
+        <input (ngModelChange)="amountChange()" [(ngModel)]="amount" matInput placeholder="Amount" type="number">
+        <mat-hint *ngIf="amount <= 0">Please enter a valid amount</mat-hint>
       </mat-form-field>
       <div class="buttons">
-        <button mat-button color="secondary" [disabled]="!potential || loading" (click)="discard()">Clear</button>
-        <button mat-raised-button color="primary" [disabled]="!amount || !potential || loading" (click)="bet()">Bet
+        <button (click)="discard()" [disabled]="!potential || loading" color="secondary" mat-button>Clear</button>
+        <button (click)="bet()" [disabled]="amount <= 0 || !potential || loading" color="primary" mat-raised-button>Bet
         </button>
       </div>
     </div>
   </div>
 
-  <div class="toggle" (click)="showSlip = !showSlip">
+  <div (click)="showSlip = !showSlip" class="toggle">
     <mat-icon *ngIf="showSlip">keyboard_arrow_up</mat-icon>
     <mat-icon *ngIf="!showSlip">keyboard_arrow_down</mat-icon>
   </div>
 </mat-card>
 
-<div class="matches" [ngClass]="{slide: betting.length}" (scroll)="showSlip = false">
+<div (scroll)="showSlip = false" [ngClass]="{slide: betting.length}" class="matches">
   <go-match *ngFor="let odd of odds" [odd]="odd"></go-match>
 </div>
 
-<div class="loading" *ngIf="loading" (click)="$event.stopPropagation()">
+<div (click)="$event.stopPropagation()" *ngIf="loading" class="loading">
   <mat-spinner></mat-spinner>
 </div>
