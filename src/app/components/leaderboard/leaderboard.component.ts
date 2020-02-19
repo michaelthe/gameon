@@ -14,6 +14,10 @@ export class LeaderboardComponent implements OnInit {
   constructor (private apiService: ApiService) { }
 
   ngOnInit () {
-    this.apiService.leaderboard().subscribe((users: any[]) => this.users = users)
+    this.apiService.leaderboard().subscribe((users: any[]) => {
+      let verifiedUsers = users.filter(user => user.verified === true)
+      let inactiveUsers = users.filter(user => user.verified === false)
+      this.users = [...verifiedUsers,...inactiveUsers]
+    })
   }
 }
