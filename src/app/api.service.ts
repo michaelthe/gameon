@@ -224,11 +224,20 @@ export interface User {
   admin: boolean,
   balance: number,
   nickname: string,
-  slips: {
-    amount: number,
-    status: string
-    bets: { selected: BET, oddId: number }[]
-  }[]
+  slips: Slip[]
+}
+
+export class Slip {
+  amount: number;
+  status: string;
+  winnings: number;
+
+  bets: Bet[] = [];
+}
+
+export class Bet {
+  oddId: number;
+  selected: BET;
 }
 
 export interface Odd {
