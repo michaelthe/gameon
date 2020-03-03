@@ -1,41 +1,33 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
+import {Component} from '@angular/core'
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import {ApiService, BET, Odd} from '../../api.service'
+
+import {LoadingComponent} from '../LoadingCompont';
 
 @Component({
   selector: 'go-betting',
   templateUrl: './betting.component.html',
   styleUrls: ['./betting.component.scss']
 })
-export class BettingComponent implements OnInit, OnDestroy {
+export class BettingComponent extends LoadingComponent {
   public odds: Odd[] = [];
   public amount: number;
   public betting: Odd[] = [];
   public loading = false;
   public showSlip = false;
 
-  private _time = 0;
-  private _destroy = false;
-
 
   constructor(
     private snackBar: MatSnackBar,
     private apiService: ApiService,
   ) {
+    super();
     this.amount = JSON.parse(window.localStorage.getItem('amount')) || 1
   }
 
   public get potential() {
     return (this.amount * this.betting.reduce((multiple, bet) => multiple * bet.odds[bet.selected], 1)).toFixed(2)
-  }
-
-  public ngOnInit() {
-    this._load()
-  }
-
-  public ngOnDestroy() {
-    this._destroy = true
   }
 
   public amountChange() {
@@ -59,27 +51,13 @@ export class BettingComponent implements OnInit, OnDestroy {
     this.amount = 1
   }
 
-  private _load() {
-    if (this._destroy) {
-      return
-    }
-
-    if (Date.now() < this._time) {
-      return requestAnimationFrame(() => {
-        setTimeout(() => this._load(), 1000)
-      })
-    }
-
+  load() {
     console.log('Loading odds...');
-    this._time = Date.now() + 60 * 1000;
-
     this.apiService
       .odds()
       .subscribe(async (odds: Odd[]) => {
         this.odds = odds;
         this.betting = odds.filter(odd => odd.selected && odd.selected !== BET.NONE);
-
-        this._load()
       })
   }
 }
