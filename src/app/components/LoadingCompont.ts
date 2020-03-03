@@ -25,7 +25,7 @@ export abstract class LoadingComponent implements OnInit, OnDestroy {
       }, 1000)
     }
 
-    this._timeToLoad = Date.now() + 1 * 60 * 1000;
+    this._timeToLoad = Date.now() + 5 * 60 * 1000;
     this._loader();
     this.load();
   }
